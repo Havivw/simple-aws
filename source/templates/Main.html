@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='Main.css') }}" />
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<body>
+    <div class="space">
+        <div class="background-img">
+        </div>
+    </div>
+    <header>
+        <h1 class="heading">AWS <span>for</span> Dummies!</h1>
+    </header>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-5 col-md-5">
+                <a href="/bill" class="btn btn-danger btn-lg" role="button"><span
+                        class="glyphicon glyphicon-usd"></span> <br />Bill</a>
+                <a href="/server_count" class="btn btn-warning btn-lg" role="button"><span
+                        class="glyphicon glyphicon-tasks"></span> <br />EC2 Servers count</a>
+                <a href="/server_info" class="btn btn-info btn-lg" role="button"><span
+                        class="glyphicon glyphicon-th-list"></span> <br />EC2 Server Details</a>
+                  {% if current_user.admin %}
+                <a href="{{ url_for('adduser') }}" class="btn btn-success btn-lg" role="button"><span
+                        class="glyphicon glyphicon-user"></span> <br />Add User</a>
+                {% endif %}
+
+            </div>
+            <div class="col-xs-5 col-md-5">
+                <a href="/AMI_details" class="btn btn-info btn-lg" role="button"><span
+                        class="glyphicon glyphicon-wrench"></span> <br />AMI Details</a>
+                <a href="/coming" class="btn btn-success btn-lg" role="button"><span
+                        class="glyphicon glyphicon-paperclip"></span> <br />Manage Tags(comming soon)</a>
+                <a href="/coming" class="btn btn-primary btn-lg" role="button"><span
+                        class="glyphicon glyphicon-warning-sign"></span> <br />Manage Security Groups(comming soon)</a>
+                 {% if current_user.admin %}
+                <a href="{{ url_for('passwordchange') }}" class="btn btn-danger btn-lg" role="button"><span
+                        class="glyphicon glyphicon-user"></span> <br />Change Password</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

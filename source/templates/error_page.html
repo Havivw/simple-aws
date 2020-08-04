@@ -1,0 +1,19 @@
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='4042.css') }}" />
+<script type="application/javascript"  src="{{ url_for('static', filename='index.js') }}"></script>
+
+<!--Rick&Morty-->
+<div class="background-img">
+		<div class="space"></div>
+			<div class="wrapper">
+				<div class="img-wrapper">
+
+					<span>{{ number }}</span>
+				</div>
+				<p>{{ msg1 }} <br> {{ msg2 }}.</p>
+				<button onclick="window.location.href='/'" type="button">GET ME HOME</button>
+				 {% if number == 401 %}
+                    <button onclick="window.location.href='/login'" type="button">Go to login</button>
+				 {% endif %}
+
+			</div>
+		</div>

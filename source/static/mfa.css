@@ -1,0 +1,29 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    height: 100%;
+}
+
+.background {
+  background: url('../static/qr.gif') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 50%;
+  width:80%;
+}
+
+.wrapper button {
+    background-color: #f96e4d;
+    border: 0;
+    padding: 11px 22px;
+    border-radius: 50px;
+    color: #fff;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: 900;
+ }

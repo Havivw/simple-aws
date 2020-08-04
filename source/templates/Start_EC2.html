@@ -1,0 +1,144 @@
+<html>
+
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='Start_EC2.css') }}" />
+  <script type="application/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<body>
+  <div class="space">
+    <div class="background-img">
+    </div>
+  </div>
+
+  <form class="form-horizontal" method="POST" action="{{ url_for('test') }}">
+    <fieldset>
+
+      <!-- Title -->
+      <header>
+        <h1 class="heading">EC2 <span>Start</span> Machine!</h1>
+      </header>
+
+
+      <!-- Select Machine Name -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="MachineName">Machine Name</label>
+        <div class="col-md-4">
+          <input class="form-control" placeholder="Machine Name" name="MachineName" type="text"
+            value="{{request.form.MachineName }}">
+        </div>
+      </div>
+
+      <!-- Select KeyPair -->
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="KeyPair">KeyPair</label>
+        <div class="col-md-4">
+          <select id="KeyPair" name="KeyPair" class="form-control">
+            <option value="1"> Select KeyPair</option>
+            {% for counter, keypair in keypairs.items() %}
+            <option value="{{ keypair.Name }}"> {{ keypair.Name }} </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <!--&lt;!&ndash; Select Bucket &ndash;&gt;-->
+      <!--<div class="form-group">-->
+      <!--  <label class="col-md-4 control-label" for="Bucket" >Bucket</label>-->
+      <!--  <div class="col-md-4">-->
+      <!--    <select id="Bucket" name="Bucket" class="form-control">-->
+      <!--      <option value= "1"> Select Bucket (optional)</option>-->
+      <!--       {% for counter, bucket in buckets.items() %}-->
+      <!--      <option value= "{{ bucket.Name }}"> {{ bucket.Name }} </option>-->
+      <!--      {% endfor %}-->
+      <!--    </select>-->
+      <!--  </div>-->
+      <!--</div>-->
+
+      <!-- Select instance_profiles -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="InstanceProfiles">Instance Profiles</label>
+        <div class="col-md-4">
+          <select id="InstanceProfiles" name="InstanceProfiles" class="form-control">
+            <option value="1"> Select Instance Profiles (optional)</option>
+            {% for counter, profile in instance_profiles.items() %}
+            <option value="{{ profile.Name }}"> {{ profile.Name }} </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <!-- Select security_groups -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="SecurityGroups">Security Groups</label>
+        <div class="col-md-4">
+          <select id="SecurityGroups" name="SecurityGroups" class="form-control">
+            <option value="1"> Select Security Groups</option>
+            {% for counter, group in security_groups.items() %}
+            <option value="{{ group.Name }}"> {{ group.Name }} - {{ group.Description }} </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <!-- Select prod tag -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="Production">Production</label>
+        <div class="col-md-4">
+          <select id="Production" name="Production" class="form-control">
+            <option value="1"> Select Production Status</option>
+            <option value="True"> True </option>
+            <option value="False"> False </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Select EC2_types -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="EC2Types">EC2 Types</label>
+        <div class="col-md-4">
+          <select id="EC2Types" name="EC2Types" class="form-control">
+            <option value="1"> Select EC2 Types</option>
+            {% for counter, ec2 in EC2_types.items() %}
+            <option value="{{ ec2.Name }} "> {{ ec2.Name }} - CPU: {{ ec2.CPUCore }} - Memory: {{ ec2.Memory }} GB -
+              Price
+              Per Hour: {{ ec2.Price }}$ Network: {{ ec2.NetworkPerformance }} </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <!-- Button-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="buttonSelect"></label>
+        <div class="col-md-8">
+          <input class="primary" id="submit_use_loader" type="submit" value="Submit" />
+        </div>
+      </div>
+      <!-- Instance ID -->
+      <div class="form-group">
+        <div class="col-md-4">
+          <input class="form-control" name="InstanceID" type="hidden" value="{{ instanceid }}">
+        </div>
+      </div>
+      <!-- site -->
+      <div class="form-group">
+        <div class="col-md-4">
+          <input class="form-control" name="Site" type="hidden" value="{{ site }}">
+        </div>
+      </div>
+      <!-- SPOT -->
+      <div class="form-group">
+        <div class="col-md-4">
+          <input class="form-control" name="Spot" type="hidden" value="{{ spot }}">
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</body>
+
+</html>

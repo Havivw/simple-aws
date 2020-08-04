@@ -1,0 +1,91 @@
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='images_details.css') }}" />
+<script type="application/javascript"  src="{{ url_for('static', filename='index.js') }}"></script>
+<!--<script type="application/javascript"></script>-->
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="background-img">
+		<div class="space"></div>
+</div>
+
+<body>
+ <header>
+     <h1 class="heading">AWS <span>Available</span> images!</h1>
+ </header>
+<br>
+<div class="well">
+    <table class="table">
+      <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+<!--            <th>Description</th>-->
+            <th>Region</th>
+            <th>Image Id</th>
+            <th>Private\Public</th>
+            <th>Platform Details</th>
+            <th>Architecture</th>
+            <th>Action</th>
+
+            <th style="width: 36px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for counter, image in result.items() %}
+      <tr>
+          <td> {{ counter }} </td>
+           {% if 'Ubuntu' in  image.Name and 'True' in image.Public %}:
+            <td><img src="{{url_for('static', filename='ubuntu.png')}}" width='20' height="20"/> {{ image.Name }} </td>
+           {% elif 'SUSE' in image.Name and 'True' in image.Public %}:
+           <td><img src="{{url_for('static', filename='suse.png')}}" width='25' height="25"/> {{ image.Name }} </td>
+           {% elif 'Microsoft ' in image.Name and 'True' in image.Public %}:
+           <td><img src="{{url_for('static', filename='Microsoft .png')}}" width='20' height="20"/> {{ image.Name }} </td>
+           {% elif 'Red Hat ' in image.Name and 'True' in image.Public %}:
+           <td><img src="{{url_for('static', filename='RedHat.png')}}" width='25' height="25"/> {{ image.Name }} </td>
+           {% elif 'Amazon ' in image.Name and 'True' in image.Public %}:
+           <td><img src="{{url_for('static', filename='aws.png')}}" width='30' height="30"/> {{ image.Name }}  </td>
+           {% elif 'Linux' in  image.PlatformDetails and 'False' in image.Public %}:
+            <td><img src="{{url_for('static', filename='linux.png')}}" width='20' height="20"/> {{ image.Name }} </td>
+           {% elif 'Windows' in  image.PlatformDetails and 'False' in image.Public %}:
+           <td><img src="{{url_for('static', filename='Microsoft .png')}}" width='20' height="20"/> {{ image.Name }} </td>
+           {% else %}:
+           <td> {{ image.Name }} </td>
+           {%  endif %}
+<!--          <td> {{ image.Description }} </td>-->
+          <td> {{ image.Region }} </td>
+          <td> {{ image.ImageId }} </td>
+          {% if 'True' in image.Public  %}:
+            <td>Public</td>
+          {% elif 'False' in image.Public %}:
+            <td>Private</td>
+          {% else %}:
+           <td> None </td>
+          {%  endif %}
+          <td> {{ image.PlatformDetails }} </td>
+          <th> {{ image.Architecture }} </th>
+          <td>
+                    <a href="/start_EC2?id={{ image.ImageId }}&site={{ image.Site }}&os={{ image.PlatformDetails }}&&spot=False" title="Start On Demand Machine">
+                        <img src="{{url_for('static', filename='ondemand.png')}}" width='30' height="30"/>
+                    </a>
+                     <a href="/start_EC2?id={{ image.ImageId }}&site={{ image.Site }}&os={{ image.PlatformDetails }}&&spot=True" title="Start Spot Machine">
+                         <img src="{{url_for('static', filename='spot.png')}}" width='30' height="30"/>
+                    </a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+</div>
+<br>
+</body>
+
+<div class="wrapper">
+  <div class="img-wrapper">
+    <button onclick="window.location.href='/'" type="button">GET ME HOME</button>
+  </div>
+</div>

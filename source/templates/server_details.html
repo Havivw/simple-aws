@@ -1,0 +1,90 @@
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="application/javascript"  src="{{ url_for('static', filename='index.js') }}"></script>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='server_details.css') }}" />
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="space">
+    <div class="background-img">
+    </div>
+</div>
+<body>
+ <header>
+     <h1 class="heading">AWS <span>EC2</span> Details!</h1>
+ </header>
+<br>
+<br>
+<div class="well">
+    <table class="table">
+      <thead>
+        <tr>
+<!--          <th>#</th>-->
+          <th>Name</th>
+          <th>Region</th>
+          <th>State</th>
+          <th>Public IP</th>
+          <th>Type</th>
+          <th>Creation Date</th>
+          <th>Spot/On-Demand</th>
+          <th>Tags</th>
+          <th>Action</th>
+          <th style="width: 36px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for instance in result %}
+        <tr>
+<!--          <td> {{ i }} </td>-->
+          <td> {{ instance.Name }} </td>
+          <td> {{ instance.region }} </td>
+          {% if 'running' in  instance.State  %}:
+            <td><span class="label label-success">Runing</span></td>
+          {% elif 'stopped' in instance.State %}:
+            <td><span class="label label-warning">Stopped</span></td>
+          {% elif 'terminated' in instance.State %}:
+            <td><span class="label label-important">Terminated</span></td>
+          {% elif 'pending' in instance.State %}:
+            <td><span class="label label-info">Pending to Start</span></td>
+          {% elif 'shutting-down' in instance.State %}:
+            <td><span class="label label-important">Shutting Down</span></td>
+          {%  endif %}
+          <td> {{ instance.PublicIP }} </td>
+          <td> {{ instance.Type }} </td>
+          <td> {{ instance.CreationDate }} </td>
+          <th> {{ instance.Spot }} </th>
+          {% if instance.Tags %}:
+             <td> {{ instance.Tags }} </td>
+          {% else %}:
+             <td>  </td>
+          {% endif %}
+          {% if 'terminated'  not in instance.State and 'shutting-down' not in instance.State %}:
+                <td>
+                    <a href="/server_start?id={{ instance.ID }}&site={{ instance.site }}" class="btn btn-small btn-success" title="Start Machine">
+                        <i class="btn-icon-only icon-play"></i>
+                    </a>
+                    <a href="/server_stop?id={{ instance.ID }}&site={{ instance.site }}" class="btn btn-small btn-warning" title="Stop Machine">
+                        <i class="btn-icon-only icon-stop"></i>
+                    </a>
+                    <a href="/server_terminate?id={{ instance.ID }}&site={{ instance.site }}" class="btn btn-small btn-danger" title="Terminate Machine">
+                        <i class="btn-icon-only icon-remove"></i>
+                    </a>
+                </td>
+            {% else %}:
+            <td> No Action! </td>
+            {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+</div>
+<br>
+</body>
+<div class="wrapper">
+  <div class="img-wrapper">
+    <button onclick="window.location.href='/'" type="button">GET ME HOME</button>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="application/javascript"  src="{{ url_for('static', filename='index.js') }}"></script>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='server_count.css') }}" />
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="space">
+    <div class="background-img">
+    </div>
+</div>
+<body>
+ <header>
+     <h1 class="heading">AWS Region <span>EC2</span> Status!</h1>
+ </header>
+  <br>
+  <br>
+  <div class="well">
+      <table class="table">
+       <thead>
+         <tr>
+           <th>Region</th>
+           <th>EC2 Machine Count</th>
+<!--           <th style="width: 36px;"></th>-->
+         </tr>
+       </thead>
+       <tbody>
+       {% for reg, count in result.items() %}
+         <tr>
+           <td> {{ reg }} </td>
+           <td> {{ count }} </td>
+         </tr>
+       {% endfor %}
+       </tbody>
+     </table>
+  </div>
+</body>
+
+<br>
+<div class="wrapper">
+  <div class="img-wrapper">
+    <button onclick="window.location.href='/'" type="button">GET ME HOME</button>
+  </div>
+</div>

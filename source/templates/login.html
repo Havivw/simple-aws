@@ -1,0 +1,55 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+</head>
+
+<body style="width: 100vw; height: 100%;">
+    <div class="background" style="padding: 2rem; width: 100%; height: 100%;">
+        <div class="row" style="margin: 0;">
+            <div class="col-12 panel panel-default pull-left">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Login</h3>
+                </div>
+                <div class="panel-body">
+                {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin: 0;">
+            <div class="col-12">
+                <a href="/bill" class="btn btn-danger btn-lg" role="button"><span
+                        class="glyphicon glyphicon-usd"></span>
+                    <br />Take me to the Bill!</a>
+            </div>
+        </div>
+
+        <div class="row" style="margin: 0; margin-top: 2rem;">
+            <div class="col-12">
+                <a href="/server_count" class="btn btn-warning btn-lg" role="button"><span
+                        class="glyphicon glyphicon-tasks"></span>
+                    <br />Just count my Servers!</a>
+            </div>
+        </div>
+          {% if not current_user.is_authenticated and ucount == 0 %}
+        <div class="row" style="margin: 0; margin-top: 2rem;">
+            <div class="col-12">
+                <a href="/adduser" class="btn btn-info btn-lg" role="button"><span
+                        class="glyphicon glyphicon-user"></span>
+                    <br />Register Admin!</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+<div class="wrapper">
+  <div class="img-wrapper">
+    <button onclick="window.location.href='/'" type="button">GET ME HOME</button>
+  </div>
+</html>
