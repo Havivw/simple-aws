@@ -15,11 +15,11 @@ $ sudo pip install -r requirement.txt
 ​
 ​
 ## Usage
-###Docker use:
 
-####Build
-Clone repo and build.
+### Docker use
 
+#### Build
+__Clone repo and build__
 ```
 $ git clone https://github.com/Havivw/simple-aws.git
 $ cd simple-aws
