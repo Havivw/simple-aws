@@ -13,7 +13,6 @@ Download the AWSforDummies folder and install with pip.
 $ sudo pip install -r requirement.txt
 ```
 ​
-​
 ## Usage
 
 ### Docker use
@@ -40,7 +39,7 @@ $ python3 app_no_mfa.py
 ​
 ## Additional Info
 ​
-* Need to run with API KEY
+* Need to run with API Keys
 
 #### Aws policies:
 * The AWS account has to include that roles:
@@ -87,8 +86,7 @@ AWSPriceListServiceFullAccess
            ]
        }
    ```
- 
-  
+   
 ​
 ## Supported 
 ​
