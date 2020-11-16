@@ -2,7 +2,7 @@
 ​
 AWS Simple is a web tool for basic action in your AWS account, Funny easy to use with MFA or without.
 
-#### Prerequisites
+##Prerequisites
 
 Please install Docker if wanted
 ​
@@ -13,19 +13,20 @@ Download the AWSforDummies folder and install with pip.
 $ sudo pip install -r requirement.txt
 ```
 ​
+​
 ## Usage
+###Docker use:
 
-### Docker use
+####Build
+Clone repo and build.
 
-#### Build
-__Clone repo and build__
 ```
-$ git clone https://github.com/Havivw/simple-aws.git
+$ git clone https://github.com/seekrets/simple-aws.git
 $ cd simple-aws
 $ docker build . -t simple-aws`
 ```
 
-#### Run
+####Run
 `docker run -d -e AWS_ACCESS_KEY_ID=<ACCESS_KEY> -e AWS_SECRET_ACCESS_KEY=<SECRET_KEY> -p 80:5000/tcp --restart on-failure simple-aws`
 
 ### without Docker with MFA
@@ -39,9 +40,9 @@ $ python3 app_no_mfa.py
 ​
 ## Additional Info
 ​
-* Need to run with API Keys
+* Need to run with API KEY
 
-#### Aws policies:
+####Aws policies:
 * The AWS account has to include that roles:
     * Crate an instance role that allows full access to your S3 buckets.
         * AmazonEC2FullAccess
@@ -50,7 +51,7 @@ $ python3 app_no_mfa.py
         * AmazonSSMReadOnlyAccess
         * AWSPriceListServiceFullAccess
  
-#### Custom Policies:
+####Custom Policies:
   
 PricingRoles (custom) 
   ```shell
@@ -86,9 +87,10 @@ AWSPriceListServiceFullAccess
            ]
        }
    ```
-   
+ 
+  
 ​
-## Supported 
+##Supported 
 ​
  * Get Total and current bill (Today and last month) #authenticated user not neededr
  * Count active instance by Reigon #authenticated user not needed
@@ -97,7 +99,7 @@ AWSPriceListServiceFullAccess
  * Create Spot or On-Demand machine from custom AMI or basic AMI 
  
   
-## TODO
+##TODO
 ​
  * Change security Groups for Machine
  * Create New security Group
