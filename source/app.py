@@ -320,6 +320,13 @@ def server_info():
         return render_template('server_details.html', result=all_instances)
     return redirect(url_for('login'))
 
+@app.route('/sg_edit')
+def manage_security_groups():
+    if current_user.is_authenticated:
+        return get_all_SG()
+        # return render_template('coming_soon.html')
+    # return redirect(url_for('login'))
+
 @app.route('/server_terminate')
 def server_terminate():
     if current_user.is_authenticated:
