@@ -420,29 +420,106 @@ def get_instance_profiles_names(site="eu-central-1", que=None):
 
 def extract_SG_details(counter, site, sec_group, all_SG_details, threaded=False):
     counter = int(counter)
-    # SG_counter = 0
+
+    group_dict = {}
     sec_group_details = {}
     # all_rules_details = {}
+    group_id = sec_group['GroupId']
+    group_name = sec_group["GroupName"]
+    group_dict[group_id] = {}
+    group_dict[group_id]["rules"] = []
     sec_group_details['Region'] = create_region_name(site)
     sec_group_details['Site'] = site
     sec_group_details['GroupId'] = sec_group['GroupId']
     sec_group_details['Description'] = sec_group['Description']
     sec_group_details['Name'] = sec_group['GroupName']
-    #
-    # for rule in sec_group['IpPermissions']:
-    #     if rule['FromPort']:
-    #         if rule['FromPort'] == rule['ToPort']:
-    #             ports = rule['FromPort']
-    #         else:
-    #             ports = f"{rule['FromPort']}-{rule['ToPort']}"
-    #     else:
-    #         port = '0-65535 (all)'
-    #
-    #     inbound_details = {}
-    #     ips = rule['IpRanges']
-    # sec_group_details['Inbound'] = ''
-    # sec_group_details['Outbound'] = ''
-    # all_rules_details[str(counter)] = sec_group_details
+    
+    # InBound permissions ##########################################
+    inbound = sec_group['IpPermissions']
+    from_port = ""
+    for rule in inbound:
+        inbound_rules = []
+        if rule['IpProtocol'] == "-1":
+            traffic_type="All Trafic"
+            ip_protpcol="All"
+            to_port="All"
+        else:
+            ip_protpcol = rule['IpProtocol']
+            from_port=rule['FromPort']
+            to_port=rule['ToPort']
+            #If ICMP, report "N/A" for port #
+            if to_port == -1:
+                to_port = "N/A"
+        #Is source/target an IP v4?
+        if len(rule['IpRanges']) > 0:
+            for ip_range in rule['IpRanges']:
+                cidr_block = ip_range['CidrIp']
+                related_address = cidr_block
+
+        #Is source/target an IP v6?
+        if len(rule['Ipv6Ranges']) > 0:
+            for ip_range in rule['Ipv6Ranges']:
+                cidr_block = ip_range['CidrIpv6']
+                related_address = cidr_block
+
+        #Is source/target a security group?
+        if len(rule['UserIdGroupPairs']) > 0:
+            for source in rule['UserIdGroupPairs']:
+                from_source = source['GroupId']
+                # if resolve_group_names:
+                #     related_address = group_names[from_source]
+                # else:
+                related_address = from_source
+        if to_port == "All":
+            this_rule = "Inbound: {}, From: {}".format(to_port, related_address)
+        else:
+            this_rule = "Inbound: {}-{}, From: {}".format(from_port, to_port, related_address)
+        inbound_rules.append(this_rule)
+    sec_group_details['Inbound'] = inbound_rules
+
+    # OutBound permissions ##########################################
+    outbound = sec_group['IpPermissionsEgress']
+    for rule in outbound:
+        outbound_rules = []
+        if rule['IpProtocol'] == "-1":
+            traffic_type="All Trafic"
+            ip_protpcol="All"
+            to_port="All"
+        else:
+            ip_protpcol = rule['IpProtocol']
+            from_port=rule['FromPort']
+            to_port=rule['ToPort']
+            #If ICMP, report "N/A" for port #
+            if to_port == -1:
+                to_port = "N/A"
+
+        #Is source/target an IP v4?
+        if len(rule['IpRanges']) > 0:
+            for ip_range in rule['IpRanges']:
+                cidr_block = ip_range['CidrIp']
+                related_address = cidr_block
+
+        #Is source/target an IP v6?
+        if len(rule['Ipv6Ranges']) > 0:
+            for ip_range in rule['Ipv6Ranges']:
+                cidr_block = ip_range['CidrIpv6']
+                related_address = cidr_block
+
+        #Is source/target a security group?
+        if len(rule['UserIdGroupPairs']) > 0:
+            for source in rule['UserIdGroupPairs']:
+                from_source = source['GroupId']
+                if resolve_group_names:
+                    related_address = group_names[from_source]
+                else:
+                    related_address = from_source
+        if to_port == "All":
+            this_rule = "Outbound: {}, From: {}".format(to_port, related_address)
+        else:
+            this_rule = "Outbound: {}-{}, From: {}".format(from_port, to_port, related_address)
+        outbound_rules.append(this_rule)
+    sec_group_details['Outbound'] = outbound_rules
+
     if threaded:
         return sec_group_details
     all_SG_details[str(counter)] = sec_group_details
@@ -463,6 +540,8 @@ def get_all_SG(site="eu-central-1", que=None):
     all_SG_details = {}
     for counter, sec_group_details in enumerate(sec_group_dicts_list):
         all_SG_details[str(counter)] = sec_group_details
+
+    print(all_SG_details)
 
     if que:
         que.put(all_SG_details)
