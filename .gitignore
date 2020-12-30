@@ -61,3 +61,6 @@ docs/_build/
 
 # personal data
 aws-creds
+
+# Run DB
+source/db.sqlite
